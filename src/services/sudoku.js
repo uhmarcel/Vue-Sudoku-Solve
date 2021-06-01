@@ -20,11 +20,12 @@ async function solveSudoku(sudoku) {
         available.box[getBox(x, y)].has(digit); 
     }
 
-    function placeDigit(digit, x, y) {
+    async function placeDigit(digit, x, y) {
         available.row[y].delete(digit);
         available.col[x].delete(digit);
         available.box[getBox(x, y)].delete(digit);
         sudoku[y][x] = digit;
+        await sleep(1);
     }
 
     function removeDigit(digit, x, y) {
@@ -43,7 +44,7 @@ async function solveSudoku(sudoku) {
         }
     }
 
-    function backtrack(x, y) {
+    async function backtrack(x, y) {
         iterations++;
 
         if (y >= 9) return true;
@@ -51,14 +52,14 @@ async function solveSudoku(sudoku) {
         const next = getNext(x, y);
 
         if (sudoku[y][x] !== null) {
-            return backtrack(next.x, next.y);
+            return await backtrack(next.x, next.y);
         }
 
         for (let digit = 1; digit <= 9; digit++) {
             if (canPlaceDigit(digit, x, y)) {
-                placeDigit(digit, x, y);
+                await placeDigit(digit, x, y);
                 
-                if (backtrack(next.x, next.y)) {
+                if (await backtrack(next.x, next.y)) {
                     return true;
                 } else {
                     removeDigit(digit, x, y);
@@ -69,7 +70,7 @@ async function solveSudoku(sudoku) {
         return false;
     }
 
-    let result = backtrack(0, 0);
+    let result = await backtrack(0, 0);
     
     console.log("Solved: " + result + "\nIterations: " + iterations);
 }
@@ -84,9 +85,9 @@ function getNext(x, y) {
     : { x: 0, y: y + 1} 
 }
 
-// function sleep(ms) {
-//     return new Promise(resolve => setTimeout(resolve, ms));
-//   }
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 export { solveSudoku }

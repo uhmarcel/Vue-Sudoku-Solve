@@ -15,15 +15,12 @@ function parseCompressedJson(input) {
             throw Error("Invalid format");
         }
 
-        console.log("here")
-
         return matches[0]
             .split("],[")
             .map(row => row
                 .split(",")
                 .map(cell => {
                     let match = cell.match(/{v:(\d+)}/);
-                    console.log("here2")
                     return match ? parseInt(match[1]) : null
                 })
             )
