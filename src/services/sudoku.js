@@ -1,7 +1,4 @@
 async function solveSudoku(sudoku) {
-
-    console.log(document.location.pathname)
-    
     let iterations = 0;
 
     let available = {
