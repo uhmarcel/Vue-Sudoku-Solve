@@ -11,9 +11,11 @@ function parseCompressedJson(input) {
     const matches = input.match(regex);
 
     try {
-        if (!matches || matches.length != 1) {
+        if (!matches || matches.length == 0) {
             throw Error("Invalid format");
         }
+
+        console.log("here")
 
         return matches[0]
             .split("],[")
@@ -21,13 +23,13 @@ function parseCompressedJson(input) {
                 .split(",")
                 .map(cell => {
                     let match = cell.match(/{v:(\d+)}/);
+                    console.log("here2")
                     return match ? parseInt(match[1]) : null
                 })
             )
     } catch(e) {
-        console.error(e)
         throw Error("Failed to parse response")
     }
 }
 
-export { getPuzzle }; // http://localhost:8080/94Qq6qGjh2
+export { getPuzzle };

@@ -27,10 +27,12 @@ export default {
     }
   },
   async mounted() {
-    let puzzleId = new URLSearchParams(window.location.search).get('id');
+    let puzzleId = new URLSearchParams(window.location.search).get('puzzle');
 
-    if (!puzzleId) {
-      puzzleId = document.location.pathname.substring(1);
+    if (!puzzleId && document.location.hash.length > 0) {
+      puzzleId = document.location.hash.substr(1);
+    } else {
+      puzzleId = document.location.pathname.substr(1);
     }
 
     API.getPuzzle(puzzleId).then(puzzle => {
