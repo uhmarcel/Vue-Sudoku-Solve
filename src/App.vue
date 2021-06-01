@@ -27,7 +27,11 @@ export default {
     }
   },
   async mounted() {
-    const puzzleId = document.location.pathname.substring(1);
+    let puzzleId = new URLSearchParams(window.location.search).get('id');
+
+    if (!puzzleId) {
+      puzzleId = document.location.pathname.substring(1);
+    }
 
     API.getPuzzle(puzzleId).then(puzzle => {
       this.board = puzzle;
